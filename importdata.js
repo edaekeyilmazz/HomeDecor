@@ -5,42 +5,27 @@ import salesModel from './models/sales.js';
 import stockModel from './models/stock.js';
 import csv from 'csvtojson';
 
-//#region Importing Product Data 
-let productIds = [];
+// #region Importing Product Data
 const importProducts = () => {
     var productResponse;
 
     try {
-        csv()
-            .fromFile('./public/uploads/product.csv')
-            .then(async (response) => {
-                for (var x = 0; x < response; x++) {
-                    // productResponse = parseFloat(response[x].product_name)
-                    // response[x].product_name = productResponse
-                    // productResponse = parseFloat(response[x].product_code)
-                    // response[x].product_code = productResponse
-                    // productResponse = parseFloat(response[x].description)
-                    // response[x].description = productResponse
-                    productResponse = parseFloat(response[x].price)
-                    response[x].price = productResponse
-                    // productResponse = parseFloat(response[x].color)
-                    // response[x].color = productResponse
-                    // productResponse = parseFloat(response[x].brand)
-                    // response[x].brand = productResponse
-                    // productResponse = parseFloat(response[x].category)
-                    // response[x].category = productResponse
-                }
-                console.log(productResponse);
-                
-                // productModel.insertMany(response)
-                // .then((return_data)=>{
-                //     console.log(return_data);  
-                // }).catch((error)=>{
-                //     console.log(error);
-                // });
-                for (const product of response) {
-                        const existingProduct = await productModel.findOne({ product_code: product.product_code });
-                        if (!existingProduct) {
+        csv().fromFile('./public/uploads/product.csv').then(async (response) => {
+            for (var x = 0; x < response.length; x++) {
+                productResponse = parseFloat(response[x].price)
+                response[x].price = productResponse
+            }
+
+            for (const product of response) {
+                let insertedDocument = null;
+                let retryCount = 0;
+                const MAX_RETRY = 3; // Maximum number of retries
+
+                while (! insertedDocument && retryCount < MAX_RETRY) {
+                    try {
+
+                        const existingProduct = await productModel.findOne({product_code: product.product_code});
+                        if (! existingProduct) {
                             const result = await productModel.create({
                                 product_name: product.product_name,
                                 product_code: product.product_code,
@@ -50,176 +35,227 @@ const importProducts = () => {
                                 brand: product.brand,
                                 category: product.category
                             });
-                            productIds.push(result.insertedId);
+                            insertedDocument = result;
+                        } else {
+                            insertedDocument = existingProduct;
                         }
-                        else{
-                            productIds.push(existingProduct._id);
+                    } catch (err) {
+                        if (err.code === 11000 && err.keyPattern.product_code) { // Duplicate key error, retry after a short delay
+                            console.log(`Duplicate product_code: ${
+                                product.product_code
+                            }. Retrying...`);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            retryCount++;
+                        } else { // Some other error occurred, re-throw the error
+                            throw err;
                         }
                     }
-                console.log("productIds: " + productIds)
-            })
-        } 
-        catch (error) {
-            console.error(error);
-    }
-}
-//#endregion Importing Product Data
-
-
-//#region Importing Customer Data 
-const importCustomers = () => {
-    var customerResponse;
-
-    try {
-        csv()
-            .fromFile('./public/uploads/customer.csv')
-            .then((response) => {
-                for (var x = 0; x < response; x++) {
-                    customerResponse = parseFloat(response[x].first_name)
-                    response[x].first_name = customerResponse
-                    customerResponse = parseFloat(response[x].last_name)
-                    response[x].last_name = customerResponse
-                    customerResponse = parseFloat(response[x].phone)
-                    response[x].phone = customerResponse
-                    customerResponse = parseFloat(response[x].address)
-                    response[x].address = customerResponse
-                    customerResponse = parseFloat(response[x].email)
-                    response[x].email = customerResponse
                 }
-                
-                customerModel.insertMany(response)
-                .then((return_data)=>{
-                    console.log(return_data);  
-                }).catch((error)=>{
-                    console.log(error);
-                });
-            })
-        } 
-        catch (error) {
-            console.error(error);
+            }
+        });
+    } catch (error) {
+        console.error(error);
     }
 }
-//#endregion Importing Customer Data
+
+// #endregion Importing Product Data
 
 
-//#region Importing Store Data 
+// #region Importing Customer Data
+const importCustomers = () => {
+    try {
+        csv().fromFile('./public/uploads/customer.csv').then(async (response) => {
+            for (const customer of response) {
+                let insertedDocument = null;
+                let retryCount = 0;
+                const MAX_RETRY = 3; // Maximum number of retries
+
+                while (! insertedDocument && retryCount < MAX_RETRY) {
+                    try {
+                        const existingCustomer = await customerModel.findOne({email: customer.email});
+                        if (! existingCustomer) {
+                            const result = await customerModel.create({
+                                first_name: customer.first_name,
+                                last_name: customer.last_name,
+                                phone: customer.phone,
+                                address: customer.address,
+                                email: customer.email
+                            });
+                            insertedDocument = result;
+                        } else {
+                            insertedDocument = existingCustomer;
+                        }
+                    } catch (err) {
+                        if (err.code === 11000 && err.keyPattern.email) { // Duplicate key error, retry after a short delay
+                            console.log(`Duplicate customer email: ${
+                                customer.email
+                            }. Retrying...`);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            retryCount++;
+                        } else { // Some other error occurred, re-throw the error
+                            throw err;
+                        }
+                    }
+                }
+            }
+        })
+    } catch (error) {
+        console.error(error);
+    }
+}
+// #endregion Importing Customer Data
+
+
+// #region Importing Store Data
 const importStores = () => {
     var storeResponse;
 
     try {
-        csv()
-            .fromFile('./public/uploads/store.csv')
-            .then((response) => {
-                for (var x = 0; x < response; x++) {
-                    storeResponse = parseFloat(response[x].store_code)
-                    response[x].store_code = storeResponse
-                    storeResponse = parseFloat(response[x].store_name)
-                    response[x].store_name = storeResponse
-                    storeResponse = parseFloat(response[x].address)
-                    response[x].address = storeResponse
-                    storeResponse = parseFloat(response[x].phone)
-                    response[x].phone = storeResponse
-                    storeResponse = parseFloat(response[x].country)
-                    response[x].country = storeResponse
-                    storeResponse = parseFloat(response[x].postal_code)
-                    response[x].postal_code = storeResponse
-                    storeResponse = parseFloat(response[x].city)
-                    response[x].city = storeResponse
+        csv().fromFile('./public/uploads/store.csv').then(async (response) => {
+            for (const store of response) {
+                let insertedDocument = null;
+                let retryCount = 0;
+                const MAX_RETRY = 3; // Maximum number of retries
+
+                while (! insertedDocument && retryCount < MAX_RETRY) {
+                    try {
+                        const existingStore = await storeModel.findOne({store_code: store.store_code});
+                        if (! existingStore) {
+                            const result = await storeModel.create({
+                                store_code: store.store_code,
+                                store_name: store.store_name,
+                                address: store.address,
+                                phone: store.phone,
+                                country: store.country,
+                                postal_code: store.postal_code,
+                                city: store.city
+                            });
+                            insertedDocument = result;
+                        } else {
+                            insertedDocument = existingStore;
+                        }
+                    } catch (err) {
+                        if (err.code === 11000 && err.keyPattern.store_code) { // Duplicate key error, retry after a short delay
+                            console.log(`Duplicate store_code: ${
+                                store.store_code
+                            }. Retrying...`);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            retryCount++;
+                        } else { // Some other error occurred, re-throw the error
+                            throw err;
+                        }
+                    }
                 }
-                
-                storeModel.insertMany(response)
-                .then((return_data)=>{
-                    console.log(return_data);  
-                }).catch((error)=>{
-                    console.log(error);
-                });
-            })
-        } 
-        catch (error) {
-            console.error(error);
+            }
+        })
+    } catch (error) {
+        console.error(error);
     }
 }
-//#endregion Importing Store Data
+// #endregion Importing Store Data
 
 
-//#region Importing Sales Data 
+// #region Importing Sales Data
 const importSales = () => {
     var salesResponse;
 
     try {
-        csv()
-            .fromFile('./public/uploads/sales.csv')
-            .then((response) => {
-                for (var x = 0; x < response; x++) {
-                salesResponse = parseFloat(response[x].product_name)
-                response[x].product_name = salesResponse
-                salesResponse = parseFloat(response[x].product_code)
-                response[x].product_code = salesResponse
-                salesResponse = parseFloat(response[x].description)
-                response[x].description = salesResponse
-                salesResponse = parseFloat(response[x].price)
-                response[x].price = salesResponse
-                salesResponse = parseFloat(response[x].color)
-                response[x].color = salesResponse
-                salesResponse = parseFloat(response[x].brand)
-                response[x].brand = salesResponse
-                salesResponse = parseFloat(response[x].category)
-                response[x].category = salesResponse
+        csv().fromFile('./public/uploads/sales.csv').then(async (response) => {
+            for (var x = 0; x < response; x++) {
+                salesResponse = parseFloat(response[x].sales_price)
+                response[x].sales_price = salesResponse
+                salesResponse = new Date((response[x].sales_date)).toISOString()
+                response[x].sales_date = salesResponse
+            }
+
+            for (const sales of response) {
+                let insertedDocument = null;
+                let retryCount = 0;
+                const MAX_RETRY = 3; // Maximum number of retries
+
+                while (! insertedDocument && retryCount < MAX_RETRY) {
+                    try {
+                        const existingSales = await salesModel.findOne({sales_code: sales.sales_code});
+                        if (! existingSales) {
+                            const existingProduct = await productModel.findOne({product_code: sales.product});
+                            const existingCustomer = await customerModel.findOne({email: sales.customer});
+                            const existingStore = await storeModel.findOne({store_code: sales.store});
+
+                            const result = await salesModel.create({
+                                sales_code: sales.sales_code,
+                                sales_date: sales.sales_date,
+                                sales_price: sales.sales_price,
+                                product: existingProduct.id,
+                                customer: existingCustomer.id,
+                                store: existingStore.id
+                            });
+                            insertedDocument = result;
+                        } else {
+                            insertedDocument = existingSales;
+                        }
+                    } catch (err) {
+                        if (err.code === 11000 && err.keyPattern.sales_code) { // Duplicate key error, retry after a short delay
+                            console.log(`Duplicate sales_code: ${
+                                sales.sales_code
+                            }. Retrying...`);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            retryCount++;
+                        } else { // Some other error occurred, re-throw the error
+                            throw err;
+                        }
+                    }
                 }
-                
-                salesModel.insertMany(response)
-                .then((return_data)=>{
-                    console.log(return_data);  
-                }).catch((error)=>{
-                    console.log(error);
-                });
-            })
-        } 
-        catch (error) {
-            console.error(error);
+            }
+        })
+    } catch (error) {
+        console.error(error);
     }
 }
-//#endregion Importing Sales Data
+// #endregion Importing Sales Data
 
 
-//#region Importing Stock Data 
+// #region Importing Stock Data
 const importStocks = () => {
     var stockResponse;
 
     try {
-        csv()
-            .fromFile('./public/uploads/product.csv')
-            .then((response) => {
-                for (var x = 0; x < response; x++) {
-                stockResponse = parseFloat(response[x].product_name)
-                response[x].product_name = stockResponse
-                stockResponse = parseFloat(response[x].product_code)
-                response[x].product_code = stockResponse
-                stockResponse = parseFloat(response[x].description)
-                response[x].description = stockResponse
-                stockResponse = parseFloat(response[x].price)
-                response[x].price = stockResponse
-                stockResponse = parseFloat(response[x].color)
-                response[x].color = stockResponse
-                stockResponse = parseFloat(response[x].brand)
-                response[x].brand = stockResponse
-                stockResponse = parseFloat(response[x].category)
-                response[x].category = stockResponse
+        csv().fromFile('./public/uploads/stock.csv').then(async (response) => {
+            for (var x = 0; x < response; x++) {
+                stockResponse = parseFloat(response[x].quantity)
+                response[x].quantity = stockResponse
+            }
+
+            for (const stock of response) {
+                let insertedDocument = null;
+                let retryCount = 0;
+                const MAX_RETRY = 3; // Maximum number of retries
+
+                while (! insertedDocument && retryCount < MAX_RETRY) {
+                    try {
+
+                        const existingProduct = await productModel.findOne({product_code: stock.product});
+                        const existingStore = await storeModel.findOne({store_code: stock.store});
+
+                        const result = await stockModel.create({quantity: stock.quantity, product: existingProduct.id, store: existingStore.id});
+                        insertedDocument = result;
+                    } catch (err) {
+                        if (err.code === 11000 && err.keyPattern.sales_code) { // Duplicate key error, retry after a short delay
+                            console.log(`Retrying...`);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            retryCount++;
+                        } else { // Some other error occurred, re-throw the error
+                            throw err;
+                        }
+                    }
                 }
-                
-                stockModel.insertMany(response)
-                .then((return_data)=>{
-                    console.log(return_data);  
-                }).catch((error)=>{
-                    console.log(error);
-                });
-            })
-        } 
-        catch (error) {
-            console.error(error);
+            }
+
+        })
+    } catch (error) {
+        console.error(error);
     }
 }
-//#endregion Importing Stock Data
+// #endregion Importing Stock Data
 
 
 export {

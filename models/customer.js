@@ -20,7 +20,8 @@ import mongoose from "mongoose"
         },
         email:{
             type: String,
-            require: true
+            require: true,
+            unique: true
         }
     });
     const customerModel = mongoose.model("customer", customerSchema);
