@@ -14,31 +14,20 @@ const importProducts = () => {
         csv()
             .fromFile('./public/uploads/product.csv')
             .then(async (response) => {
-                for (var x = 0; x < response; x++) {
-                    // productResponse = parseFloat(response[x].product_name)
-                    // response[x].product_name = productResponse
-                    // productResponse = parseFloat(response[x].product_code)
-                    // response[x].product_code = productResponse
-                    // productResponse = parseFloat(response[x].description)
-                    // response[x].description = productResponse
+                for (var x = 0; x < response.length; x++) {
                     productResponse = parseFloat(response[x].price)
                     response[x].price = productResponse
-                    // productResponse = parseFloat(response[x].color)
-                    // response[x].color = productResponse
-                    // productResponse = parseFloat(response[x].brand)
-                    // response[x].brand = productResponse
-                    // productResponse = parseFloat(response[x].category)
-                    // response[x].category = productResponse
                 }
-                console.log(productResponse);
                 
-                // productModel.insertMany(response)
-                // .then((return_data)=>{
-                //     console.log(return_data);  
-                // }).catch((error)=>{
-                //     console.log(error);
-                // });
                 for (const product of response) {
+                    let insertedDocument = null;
+                    let retryCount = 0;
+                    const MAX_RETRY = 3; // Maximum number of retries
+                
+                    while (!insertedDocument && retryCount < MAX_RETRY) {
+                        try {
+
+                        console.log('product_code:', product.product_code);
                         const existingProduct = await productModel.findOne({ product_code: product.product_code });
                         if (!existingProduct) {
                             const result = await productModel.create({
@@ -50,19 +39,35 @@ const importProducts = () => {
                                 brand: product.brand,
                                 category: product.category
                             });
-                            productIds.push(result.insertedId);
+                            insertedDocument = result;
+                            console.log(result);
+                            productIds.push(result._id);
                         }
                         else{
+                            insertedDocument = existingProduct;
                             productIds.push(existingProduct._id);
                         }
+                } catch (err) {
+                    if (err.code === 11000 && err.keyPattern.product_code) {
+                        // Duplicate key error, retry after a short delay
+                        console.log(`Duplicate product_code: ${product.product_code}. Retrying...`);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        retryCount++;
+                    } else {
+                        // Some other error occurred, re-throw the error
+                        throw err;
                     }
+                }
+            }
                 console.log("productIds: " + productIds)
-            })
+            }
+            });
         } 
         catch (error) {
             console.error(error);
     }
-}
+} 
+
 //#endregion Importing Product Data
 
 
