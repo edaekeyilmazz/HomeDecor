@@ -1,5 +1,7 @@
+// Eda Ekeyilmaz - 8823564
+// Namitha Chevari - 8817006
+
 import express from 'express'
-//import data
 import mongooseConnection from './db.js';
 import {
     importProducts,
@@ -16,6 +18,7 @@ app.use(express.static('public'));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended: true}))
 
+// MongoDb Connection
 mongooseConnection();
 
 app.listen(6406, () => {
@@ -32,9 +35,9 @@ importStocks();
 
 
 // #region VIEWS
-// Default
+// Home
 app.get('/', function (req, res) {
-    res.render('product.ejs');
+    res.render('home.ejs');
 });
 
 // Customer
