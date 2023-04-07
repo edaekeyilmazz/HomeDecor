@@ -1,2 +1,6 @@
 ﻿sales_code,sales_date,sales_price,customer,product,store
-SAL-001,2023-04-06,650.91,,,
+SAL-001,2023-04-04,,,,
+SAL-002,2023-04-05,,,,
+SAL-003,2023-04-05,,,,
+SAL-004,2023-04-06,,,,
+SAL-005,2023-04-06,,,,
