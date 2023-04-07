@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
-import productModel from "./product";
-import storeModel from "./store";
+import productModel from "./product.js";
+import storeModel from "./store.js";
 
 //#region Stock MODEL
     const stockSchema = mongoose.Schema({

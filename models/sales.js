@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
-import customerModel from "./customer";
-import productModel from "./product";
-import storeModel from "./store";
+import customerModel from "./customer.js";
+import productModel from "./product.js";
+import storeModel from "./store.js";
 
 //#region Sales MODEL
     const salesSchema = mongoose.Schema({

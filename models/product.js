@@ -8,7 +8,8 @@ import mongoose from "mongoose"
         },
         product_code:{
             type: String,
-            require: true
+            require: true,
+            unique: true
         },
         description:{
             type: String
