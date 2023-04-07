@@ -4,7 +4,8 @@ import mongoose from "mongoose"
     const storeSchema = mongoose.Schema({
         store_code:{
             type: String,
-            require: true
+            require: true,
+            unique: true
         },
         store_name:{
             type: String,

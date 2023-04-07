@@ -7,7 +7,8 @@ import storeModel from "./store.js";
     const salesSchema = mongoose.Schema({
         sales_code:{
             type: String,
-            require: true
+            require: true,
+            unique: true
         },
         sales_date:{
             type: Date,
