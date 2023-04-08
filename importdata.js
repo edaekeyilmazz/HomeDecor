@@ -9,6 +9,8 @@ import salesModel from './models/sales.js';
 import stockModel from './models/stock.js';
 import csv from 'csvtojson';
 
+console.log("Importing data is in progress...");
+
 // #region Importing Product Data
 const importProducts = () => {
     var productResponse;
@@ -290,6 +292,7 @@ const importStocks = () => {
 }
 // #endregion Importing Stock Data
 
+console.log("Importing data is done!");
 
 export {
     importProducts,
