@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Snippet - GoSNippets</title>
+    <%-include("./partials/stylesheet.ejs") %>
+  </head>
+  <body class="snippet-body">
+    <%-include("./partials/header.ejs") %>
+    <div class="container-contact100">
+      <div class="wrap-contact100">
+        <form class="contact100-form validate-form">
+          <span class="contact100-form-title"> Contact Us </span>
+
+          <div
+            class="wrap-input100 validate-input"
+            data-validate="Please enter your name"
+          >
+            <input
+              class="input100"
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              required
+            />
+            <span class="focus-input100"></span>
+          </div>
+
+          <div
+            class="wrap-input100 validate-input"
+            data-validate="Please enter email: e@a.x"
+          >
+            <input
+              class="input100"
+              type="text"
+              name="email"
+              placeholder="Email"
+              required
+            />
+            <span class="focus-input100"></span>
+          </div>
+
+          <div
+            class="wrap-input100 validate-input"
+            data-validate="Please enter your message"
+          >
+            <textarea
+              class="input100"
+              name="message"
+              placeholder="Your Message"
+              required
+            ></textarea>
+            <span class="focus-input100"></span>
+          </div>
+
+          <div class="container-contact100-form-btn">
+            <button class="contact100-form-btn">Send Email</button>
+          </div>
+        </form>
+
+        <div class="contact100-more">
+          Contact our 24/7 call center:
+          <span class="contact100-more-highlight">+001 345 6889</span>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript"></script>
+  </body>
+</html>

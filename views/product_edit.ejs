@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Edit</title>
+    <%-include("./partials/stylesheet.ejs") %>
+</head>
+<body>
+  <%-include("./partials/header.ejs") %>
+
+  <div class="row">
+    <% if (product != null) { %> 
+      <form method="post" action="/product_update/<%= product.id %>" >
+    <% } else { %> 
+      <form method="post" action="/product_insert" >
+    <% } %> 
+
+      <input type="text" class="form-control" id="id" name="id" value="<%= product != null ? product.id : '' %>" hidden>
+        <div class="form col-sm-8-group">
+            <label for="name">Product Name</label>
+            <input type="text" class="form-control" id="product_name" name="product_name" value="<%=product != null ? product.product_name : '' %>">
+          </div>
+          <div class="form col-sm-8-group">
+              <label for="contact">Product Code</label>
+              <input type="text" class="form-control" id="product_code" name="product_code" value="<%=product != null ? product.product_code : '' %>">
+            </div>
+            <div class="form col-sm-8-group">
+              <label for="name">Description</label>
+              <input type="text" class="form-control" id="description" name="description" value="<%=product != null ? product.description : '' %>">
+            </div>
+            <div class="form col-sm-8-group">
+              <label for="name">Price</label>
+              <input type="text" class="form-control" id="name" name="price" value="<%=product != null ? product.price : '' %>">
+            </div>
+            <div class="form col-sm-8-group">
+              <label for="name">Color</label>
+              <input type="text" class="form-control" id="color" name="color" value="<%=product != null ? product.color : '' %>">
+            </div>
+            <div class="form col-sm-8-group">
+              <label for="name">Brand</label>
+              <input type="text" class="form-control" id="brand" name="brand" value="<%=product != null ? product.brand : '' %>">
+            </div>
+            <div class="form col-sm-8-group">
+              <label for="name">Category</label>
+              <input type="text" class="form-control" id="category" name="category" value="<%=product != null ? product.category :'' %>">
+            </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <a class="btn btn-danger" href="/allproducts"> Cancel </a>
+      </form>
+    </div>
+
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script src="/js/change-font-size.js"></script>
+</body>
+</html>
