@@ -2,6 +2,8 @@ import  express  from 'express'
 import ProductController from '../controllers/productController.js'
 import CustomerController from '../controllers/customerController.js'
 import StoreController from '../controllers/storeController.js'
+import StockController from '../controllers/stockController.js'
+import SalesController from '../controllers/salesController.js'
 // import { validateProduct } from '../middleware/validation.js';
 
 const router = express.Router()
@@ -31,6 +33,22 @@ router.get('/store_edit/:id', StoreController.store_edit)
 router.post('/store_insert', StoreController.store_insert)
 router.post('/store_update/:id', StoreController.store_update)
 router.get('/store_delete/:id', StoreController.store_delete)
+
+
+// Stock 
+router.get('/allstocks', StockController.allstocks)
+router.get('/stock_edit/:id', StockController.stock_edit)
+router.post('/stock_insert', StockController.stock_insert)
+router.post('/stock_update/:id', StockController.stock_update)
+router.get('/stock_delete/:id', StockController.stock_delete)
+
+
+// Sales 
+router.get('/allsales', SalesController.allsales)
+router.get('/sales_edit/:id', SalesController.sales_edit)
+router.post('/sales_insert', SalesController.sales_insert)
+router.post('/sales_update/:id', SalesController.sales_update)
+router.get('/sales_delete/:id', SalesController.sales_delete)
 
 
 export default router

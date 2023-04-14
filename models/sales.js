@@ -20,15 +20,15 @@ import storeModel from "./store.js";
         },
         customer: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'customerModel'
+            ref: 'customer'
         },
         product: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'productModel'
+            ref: 'product'
         },
         store: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'storeModel'
+            ref: 'store'
         }
     });
     const salesModel = mongoose.model("sales", salesSchema);

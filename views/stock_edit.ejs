@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Edit</title>
+    <%-include("./partials/stylesheet.ejs") %>
+</head>
+<body>
+  <%-include("./partials/header.ejs") %>
+
+  <div class="row">
+    <% if (stock != null) { %> 
+      <form method="post" action="/stock_update/<%= stock.id %>" >
+    <% } else { %> 
+      <form method="post" action="/stock_insert" >
+    <% } %> 
+
+      <input type="text" class="form-control" id="id" name="id" value="<%= stock != null ? stock.id : '' %>" hidden>
+          <div class="form col-sm-8-group">
+            <label for="product">Product Name</label>
+            <select id="product" name="product" class="form-control">
+              <option hidden value="-1" selected>Select a product</option>
+              <% for(var i=0; i < productList.length; i++) {%>
+                <!-- <option value="<%= productList[i].id %>"><%=  productList[i].product_name %></option> -->
+                <% if(productList[i].id == stock?.product) { %>
+                  <option value="<%= productList[i].id %>" selected><%= productList[i].product_name %></option>
+                <% } else { %>
+                  <option value="<%= productList[i].id %>"><%= productList[i].product_name %></option>
+                <% } %>
+              <% } %>
+            </select>
+          </div>
+          <div class="form col-sm-8-group">
+            <label for="store">Store Name</label>
+            <select id="store" name="store" class="form-control">
+              <option hidden value="-1" selected>Select a store</option>
+              <% for(var i=0; i < storeList.length; i++) {%>
+                <!-- <option value="<%= storeList[i].id %>"><%=  storeList[i].store_name %></option> -->
+                <% if(storeList[i].id == stock?.store) { %>
+                  <option value="<%= storeList[i].id %>" selected><%= storeList[i].store_name %></option>
+                <% } else { %>
+                  <option value="<%= storeList[i].id %>"><%= storeList[i].store_name %></option>
+                <% } %>
+              <% } %>
+            </select>
+          </div>
+          <div class="form col-sm-8-group">
+            <label for="quantity">Quantity</label>
+            <input type="text" class="form-control" id="quantity" name="quantity" value="<%=stock != null ? stock.quantity : '' %>" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <a class="btn btn-danger" href="/allstocks"> Cancel </a>
+      </form>
+    </div>
+
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script src="/js/change-font-size.js"></script>
+</body>
+</html>

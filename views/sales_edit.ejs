@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Edit</title>
+    <%-include("./partials/stylesheet.ejs") %>
+</head>
+<body>
+  <%-include("./partials/header.ejs") %>
+
+  <div class="row">
+    <% if (sales != null) { %> 
+      <form method="post" action="/sales_update/<%= sales.id %>" >
+    <% } else { %> 
+      <form method="post" action="/sales_insert" >
+    <% } %> 
+
+          <input type="text" class="form-control" id="id" name="id" value="<%= sales != null ? sales.id : '' %>" hidden>
+          
+          <div class="form col-sm-8-group">
+            <label for="sales_code">Sales Code</label>
+            <input type="text" class="form-control" id="sales_code" name="sales_code" value="<%=sales != null ? sales.sales_code : '' %>" required>
+          </div>
+          <div class="form col-sm-8-group">
+            <label for="sales_date">Sales Date</label>
+            <input type="date" class="form-control" id="sales_date" name="sales_date" value="<%= sales != null ? sales.sales_date.toISOString('YYYY-MM-DD').slice(0, 10) : '' %>" required>
+          </div>
+          <div class="form col-sm-8-group">
+            <label for="sales_price">Price</label>
+            <input type="text" class="form-control" id="sales_price" name="sales_price" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)(\.([0-9]{1,2}))?)" value="<%=sales != null ? sales.sales_price : '' %>" required>
+          </div>
+          <div class="form col-sm-8-group">
+            <label for="customer">Customer Name</label>
+            <select id="customer" name="customer" class="form-control">
+              <option hidden value="-1" selected>Select a customer</option>
+              <% for(var i=0; i < customerList.length; i++) {%>
+                <!-- <option value="<%= productList[i].id %>"><%=  productList[i].product_name %></option> -->
+                <% if(customerList[i].id == sales?.customer) { %>
+                  <option value="<%= customerList[i].id %>" selected><%= customerList[i].first_name + ' ' + customerList[i].last_name %></option>
+                <% } else { %>
+                  <option value="<%= customerList[i].id %>"><%= customerList[i].first_name + ' ' + customerList[i].last_name %></option>
+                <% } %>
+              <% } %>
+            </select>
+          </div>
+          <div class="form col-sm-8-group">
+            <label for="product">Product Name</label>
+            <select id="product" name="product" class="form-control">
+              <option hidden value="-1" selected>Select a product</option>
+              <% for(var i=0; i < productList.length; i++) {%>
+                <!-- <option value="<%= productList[i].id %>"><%=  productList[i].product_name %></option> -->
+                <% if(productList[i].id == sales?.product) { %>
+                  <option value="<%= productList[i].id %>" selected><%= productList[i].product_name %></option>
+                <% } else { %>
+                  <option value="<%= productList[i].id %>"><%= productList[i].product_name %></option>
+                <% } %>
+              <% } %>
+            </select>
+          </div>
+          <div class="form col-sm-8-group">
+            <label for="store">Store Name</label>
+            <select id="store" name="store" class="form-control">
+              <option hidden value="-1" selected>Select a store</option>
+              <% for(var i=0; i < storeList.length; i++) {%>
+                <!-- <option value="<%= storeList[i].id %>"><%=  storeList[i].store_name %></option> -->
+                <% if(storeList[i].id == sales?.store) { %>
+                  <option value="<%= storeList[i].id %>" selected><%= storeList[i].store_name %></option>
+                <% } else { %>
+                  <option value="<%= storeList[i].id %>"><%= storeList[i].store_name %></option>
+                <% } %>
+              <% } %>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <a class="btn btn-danger" href="/allsales"> Cancel </a>
+      </form>
+    </div>
+
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+      <script src="/js/change-font-size.js"></script>
+</body>
+</html>

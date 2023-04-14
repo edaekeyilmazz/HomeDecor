@@ -10,11 +10,11 @@ import storeModel from "./store.js";
         },
         product: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'productModel'
+            ref: 'product'
         },
         store: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'storeModel'
+            ref: 'store'
         }
     });
     const stockModel = mongoose.model("stock", stockSchema);

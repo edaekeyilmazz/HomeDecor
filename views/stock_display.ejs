@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Document</title>
+    <%-include("./partials/stylesheet.ejs") %>
+</head>
+<body>
+    <%-include("./partials/header.ejs") %>
+
+    <h1 style="text-align: center; padding:40px;">Stock List</h1>
+
+    <div class="add-button">
+        <a class="btn btn-primary" href="/stock_edit/0"> Add Stock </a>
+    </div>
+    <div class="add-button">
+        <a href="/pdf/example.pdf" target="_blank">Open PDF in new tab</a>
+    </div>
+    <div >
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Store</th>
+                            <th scope="col">Product</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(var i=0; i<stockList.length; i++) {%>
+                            <tr>
+                              <td><%= stockList[i].product_details.product_name %></td>
+                              <td><%= stockList[i].store_details.store_name %></td>
+                              <td><%= stockList[i].quantity %></td>
+                              <td><a class="btn btn-success" href="/stock_edit/<%= stockList[i].id %>"> Edit </a></td>
+                              <td><a class="btn btn-danger" href="/stock_delete/<%= stockList[i].id %>"> Delete </a></td>
+                            </tr>
+                         <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="/js/change-font-size.js"></script>
+</body>
+</html>

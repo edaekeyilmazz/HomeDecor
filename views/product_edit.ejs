@@ -19,11 +19,11 @@
     <% } %> 
 
       <input type="text" class="form-control" id="id" name="id" value="<%= product != null ? product.id : '' %>" hidden>
-        <div class="form col-sm-8-group">
-            <label for="name">Product Name</label>
-            <input type="text" class="form-control" id="product_name" name="product_name" value="<%=product != null ? product.product_name : '' %>" required>
-          </div>
-          <div class="form col-sm-8-group">
+            <div class="form col-sm-8-group">   
+              <label for="name">Product Name</label>
+              <input type="text" class="form-control" id="product_name" name="product_name" value="<%=product != null ? product.product_name : '' %>" required>
+            </div>
+            <div class="form col-sm-8-group">
               <label for="contact">Product Code</label>
               <input type="text" class="form-control" id="product_code" name="product_code" value="<%=product != null ? product.product_code : '' %>" required>
             </div>
@@ -32,8 +32,8 @@
               <input type="text" class="form-control" id="description" name="description" value="<%=product != null ? product.description : '' %>">
             </div>
             <div class="form col-sm-8-group">
-              <label for="name">Price</label>
-              <input type="text" class="form-control" id="name" name="price" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)(\.([0-9]{1,2}))?)" value="<%=product != null ? product.price : '' %>" required>
+              <label for="price">Price</label>
+              <input type="text" class="form-control" id="price" name="price" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)(\.([0-9]{1,2}))?)" value="<%=product != null ? product.price : '' %>" required>
             </div>
             <div class="form col-sm-8-group">
               <label for="name">Color</label>
