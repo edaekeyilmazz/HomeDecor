@@ -21,11 +21,11 @@
       <input type="text" class="form-control" id="id" name="id" value="<%= product != null ? product.id : '' %>" hidden>
         <div class="form col-sm-8-group">
             <label for="name">Product Name</label>
-            <input type="text" class="form-control" id="product_name" name="product_name" value="<%=product != null ? product.product_name : '' %>">
+            <input type="text" class="form-control" id="product_name" name="product_name" value="<%=product != null ? product.product_name : '' %>" required>
           </div>
           <div class="form col-sm-8-group">
               <label for="contact">Product Code</label>
-              <input type="text" class="form-control" id="product_code" name="product_code" value="<%=product != null ? product.product_code : '' %>">
+              <input type="text" class="form-control" id="product_code" name="product_code" value="<%=product != null ? product.product_code : '' %>" required>
             </div>
             <div class="form col-sm-8-group">
               <label for="name">Description</label>
@@ -33,7 +33,7 @@
             </div>
             <div class="form col-sm-8-group">
               <label for="name">Price</label>
-              <input type="text" class="form-control" id="name" name="price" value="<%=product != null ? product.price : '' %>">
+              <input type="text" class="form-control" id="name" name="price" pattern="(0\.((0[1-9]{1})|([1-9]{1}([0-9]{1})?)))|(([1-9]+[0-9]*)(\.([0-9]{1,2}))?)" value="<%=product != null ? product.price : '' %>" required>
             </div>
             <div class="form col-sm-8-group">
               <label for="name">Color</label>
@@ -41,11 +41,11 @@
             </div>
             <div class="form col-sm-8-group">
               <label for="name">Brand</label>
-              <input type="text" class="form-control" id="brand" name="brand" value="<%=product != null ? product.brand : '' %>">
+              <input type="text" class="form-control" id="brand" name="brand" value="<%=product != null ? product.brand : '' %>" required>
             </div>
             <div class="form col-sm-8-group">
               <label for="name">Category</label>
-              <input type="text" class="form-control" id="category" name="category" value="<%=product != null ? product.category :'' %>">
+              <input type="text" class="form-control" id="category" name="category" value="<%=product != null ? product.category :'' %>" required>
             </div>
           <button type="submit" class="btn btn-primary">Submit</button>
           <a class="btn btn-danger" href="/allproducts"> Cancel </a>

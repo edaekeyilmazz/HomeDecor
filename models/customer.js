@@ -12,7 +12,7 @@ import mongoose from "mongoose"
         },
         phone:{
             type: String,
-            default: true
+            require: true
         },
         address:{
             type: String,

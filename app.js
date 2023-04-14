@@ -5,6 +5,7 @@ import express from 'express'
 import mongooseConnection from './db.js';
 import router from "./routes/web.js";
 import bodyParser from 'body-parser'
+import pdfGenerator  from './pdf.js';
 
 import {
     importProducts,
@@ -42,6 +43,7 @@ importSales();
 importStocks();
 // #endregion IMPORTING DATA
 
+pdfGenerator();
 
 app.use('/',router)
 
