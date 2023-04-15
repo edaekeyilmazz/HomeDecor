@@ -69,7 +69,124 @@ margin-left: 20%;
 
 .add-button{
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 2rem;
-  margin-right:20%;
+}
+
+/* Footer start */
+.footer{
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #152238;
+  height: auto;
+  margin-top: 3rem;
+  padding-top: 1rem;
+  color: #fff;
+}
+.footer-content{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+.footer-content h3{
+  font-size: calc(2rem + 1vw);     
+  line-height: calc(3rem + 1vw);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.footer-content p{
+  max-width: 500px;
+  margin: 10px auto;
+  font-size: calc(0.8rem + 0.5vw);
+  line-height: calc(1.5rem + 1vw);
+  color: #cacdd2;
+}
+.socials{
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0 1rem 0;
+}
+.footer-bottom{
+  background: #152238;
+  padding: 1rem;
+  padding-bottom: 4rem;
+  text-align: center;
+  margin-left:39%
+  
+}
+.footer-bottom p{
+  float: left;
+  font-size: calc(0.8rem + 0.5vw);
+  line-height: calc(1.5rem + 1vw);
+  word-spacing: 2px;
+  text-transform: capitalize;
+
+}
+.footer-bottom p a{
+  color: #007bff;
+  font-size: calc(0.8rem + 0.5vw);
+  line-height: calc(1.5rem + 1vw);
+  text-decoration: none;
+}
+.footer-bottom span{
+  text-transform: uppercase;
+  opacity: .4;
+  font-weight: 200;
+}
+.social-media-icon{
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left:1rem;
+}
+
+.button-top{
+  margin-top:20px;
+}
+
+.center-footer{
+  margin-top:10px;
+  text-align: center;
+  font-size:18px;
+}
+
+@media only screen and (max-width: 600px) {
+  table thead {
+    display: none;
+  }
+    table,
+    tbody,
+    td,
+    tr {
+      display: block;
+      width: 100%;
+    }
+  /* Set table cell styles */
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  .row {
+    width: 95%;
+    margin: 10px;
+  }
+  .footer-bottom {
+    margin-left: 7% !important;
+}
+}
+@media only screen and (max-width: 1024px) {
+
+  .row {
+    width: 90%;
+    margin: 5%;
+  }
+  .footer-bottom {
+    margin-left: 30%;
+}
 }

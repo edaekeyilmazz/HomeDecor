@@ -20,19 +20,21 @@ class StockController {
                         foreignField: '_id',
                         as: 'product_details'
                     }
-                },{
+                },
+                {
                     $lookup: {
                         from: 'stores',
                         localField: 'store',
                         foreignField: '_id',
                         as: 'store_details'
                     }
-                },{
-                    $unwind: "$product_details"
-                },{
-                    $unwind: "$store_details"
-                }, 
+                },
                 {
+                    $unwind: "$product_details"
+                },
+                {
+                    $unwind: "$store_details"
+                }, {
                     $project: {
                         id: "$_id",
                         product: "$product",
@@ -93,13 +95,29 @@ class StockController {
     static stock_insert = async (req, res) => {
         const insert_stock = req.body;
 
-        stockModel.create({quantity: insert_stock.quantity, product: insert_stock.product, store: insert_stock.store}).then((stockInfoFromDb) => {
-            console.log("=========================== Stock has been updated successfully ==============================");
-            console.log(stockInfoFromDb);
-            res.redirect("/allstocks");
-        }).catch(error => {
-            console.log(error);
-        });
+        // If there is a data with the same store and product, then we add the quantity to the db value.
+        const existingStocks = await stockModel.findOne({product: insert_stock.product, store: insert_stock.store});
+        if (existingStocks != null) {
+            let updatedquantity = parseInt(existingStocks.quantity) + parseInt(insert_stock.quantity);
+
+            stockModel.findByIdAndUpdate(existingStocks.id, {
+                quantity: updatedquantity
+            }).then((stockInfoFromDb) => {
+                console.log("=========================== Stock has been updated successfully ==============================");
+                console.log(stockInfoFromDb);
+                res.redirect("/allstocks");
+            }).catch(error => {
+                console.log(error);
+            });
+        } else {
+            stockModel.create({quantity: insert_stock.quantity, product: insert_stock.product, store: insert_stock.store}).then((stockInfoFromDb) => {
+                console.log("=========================== Stock has been updated successfully ==============================");
+                console.log(stockInfoFromDb);
+                res.redirect("/allstocks");
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     }
 
 

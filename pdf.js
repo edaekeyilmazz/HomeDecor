@@ -1,78 +1,154 @@
 // Importing modules
-import PDFDocument from 'pdfkit'
-import fs from 'fs'
+import PDFDocument from 'pdfkit';
+import mongooseConnection from './db.js';
+import fs from 'fs';
+import stockModel from './models/stock.js';
+// import productModel from './models/product.js';
 
-const pdfGenerator = () => { // Create a document
+
+// MongoDb Connection
+mongooseConnection();
+
+const pdfGeneratorForStockQuery = async () => {
+    // Create a document
+    // Retrieve data based on query
+    const stockListAgg = await stockModel.aggregate([
+        {
+            $lookup: {
+                from: 'products',
+                localField: 'product',
+                foreignField: '_id',
+                as: 'product_details'
+            }
+        },
+        {
+            $lookup: {
+                from: 'stores',
+                localField: 'store',
+                foreignField: '_id',
+                as: 'store_details'
+            }
+        },
+        {
+            $unwind: "$product_details"
+        },
+        {
+            $unwind: "$store_details"
+        }, {
+            $project: {
+                id: "$_id",
+                product: "$product",
+                store: "$store",
+                quantity: 1,
+                "product_details.product_name": 1,
+                "product_details.product_code": 1,
+                "store_details.store_name": 1,
+                "store_details.store_code": 1
+            }
+        },
+        {
+            $group: {
+              _id: "$store",
+              stockList: {
+                $push: {
+                  id: "$id",
+                  product: "$product",
+                  quantity: "$quantity",
+                  store_code: "$store_details.store_code",
+                  store_name: "$store_details.store_name",
+                  product_name: "$product_details.product_name",
+                  product_code: "$product_details.product_code"
+                }
+              }
+            }
+          }
+    ]);
+
+    // add logo to header
+    function addHeader(doc) {
+        doc
+        .image('./public/images/home-decor-logo.png', 270, 10, {
+            fit: [100, 100],
+            align: 'center',
+            valign: 'center'
+        });
+
+        doc.fontSize(22);
+        doc.text('Low Stock Products', 220, 100)
+        .moveDown();
+    }
+
     const doc = new PDFDocument();
 
-    // Saving the pdf file in root directory.
-    const file_name = 'example.pdf';
-    doc.pipe(fs.createWriteStream(`./public/pdf/${file_name}`));
+    // add the logo to the header
+    addHeader(doc);
+
+    // PageNumber not working correctly, check it
+    doc.on('pageAdded', () => {
+        const pageNumber = doc.pageNumber;
+        doc.fontSize(10)
+          .text(`Page ${pageNumber}`, 0, 750, { align: 'center' });
+      });
+
+      const file_name = 'stock.pdf';
+      doc.pipe(fs.createWriteStream(`./public/pdf/${file_name}`));
+
+      const headers = ["Store Code", "Product Code", "Product Name", "Quantity in Stock"];
 
 
-    // Adding an image in the pdf.
-
-    doc.image('./public/images/conestogalogo.png', {
-        fit: [
-            100, 100
-        ],
-        align: 'center',
-        valign: 'center'
+    // Loop through the query results and add the data to the table
+    const tableData = stockListAgg.map((item) => {
+        const returnList = [];
+        item.stockList.forEach(stock => {
+            returnList.push(
+                stock.store_code,
+                stock.product_code,
+                stock.product_name,
+                stock.quantity
+            );
+        })
+        console.log(returnList);
+        return returnList;
     });
 
-    // Adding functionality
-    // doc.fontSize(22).text('This the article for GeeksforGeeks', 100, 100);
 
-    doc.addPage().fontSize(15).text('Generating PDF with the help of pdfkit', 100, 100);
+    // Set the width of each column
+    const columnWidths = [100, 100, 200, 50];
 
+    // Set the initial x and y positions of the table
+    let x = 50;
+    let y = 200;
 
-    // Apply some transforms and render an SVG path with the
-    // 'even-odd' fill rule
-    doc.scale(0.6).translate(470, -380).path('M 250,75 L 323,301 131,161 369,161 177,301 z').fill('red', 'even-odd').restore();
+    // Draw the table headers
+    doc.font('Helvetica-Bold').fontSize(10);
+    headers.forEach((header, index) => {
+        doc.text(header, x, y);
+        x += columnWidths[index];
+    });
 
-    // // Add some text with annotations
-    // doc
-    // .addPage()
-    // .fillColor('blue')
-    // .text('The link for GeeksforGeeks website', 100, 100)
-    // .link(100, 100, 160, 27, {
-    //     url: `./pdf/${file_name}`,
-    //     target: '_blank'
-    // });
-    // console.log(`./pdf/${file_name}`);
-    // Finalize PDF file
+    // Reset the x and y positions for the table data
+    x = 50;
+    y += 20;
 
-
-
-    // Add the invoice header
-    doc.fontSize(20).text("Invoice", { align: "center" }).moveDown(0.5);
-    doc.fontSize(12).text("Date: 2023-04-03", { align: "right" });
-    doc.moveDown();
-
-    // Add the item details
-    doc.fontSize(16).text("Item Details", { underline: true }).moveDown();
-    doc.fontSize(12);
-    doc.text("Year: 2023").moveDown();
-    doc.text("Brand: Toyota").moveDown();
-    doc.text("Model: Camry").moveDown();
-    doc.text("Category: Engine").moveDown();
-    doc.text("Item: Air Filter").moveDown();
-    doc.text("Price: $20.00").moveDown();
-    doc.text("Quantity: 2").moveDown();
-    doc.text("Total: $40.00").moveDown();
-
-    // Add the order summary
-    doc.fontSize(16).text("Order Summary", { underline: true }).moveDown();
-    doc.fontSize(12);
-    doc.text("Subtotal: $40.00").moveDown();
-    doc.text("Tax: $2.00").moveDown();
-    doc.text("Shipping: Free").moveDown();
-    doc.fontSize(14).text("Total: $42.00", { bold: true }).moveDown();
+    // Draw the table data
+    doc.font('Helvetica').fontSize(10);
+    tableData.forEach((row) => {
+        row.forEach((cell, index) => {
+            doc.text(cell.toString(), x, y);
+            x += columnWidths[index];
+        });
+        x = 50;
+        y += 20;
+    });
 
 
+    // Add the footer
+        doc.fontSize(10)
+        .text('Page ' + doc.pageNumber, doc.page.margins.left + 200, doc.page.height - 90);
 
     doc.end();
 
+
 }
 
-export default pdfGenerator
+export default pdfGeneratorForStockQuery

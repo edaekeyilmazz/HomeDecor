@@ -36,11 +36,11 @@ app.listen(6406, () => {
 });
 
 // #region IMPORTING DATA
-importProducts();
-importCustomers();
-importStores();
-importSales();
-importStocks();
+// importProducts();
+// importCustomers();
+// importStores();
+// importSales();
+// importStocks();
 // #endregion IMPORTING DATA
 
 pdfGenerator();
