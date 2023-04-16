@@ -5,7 +5,7 @@ import express from 'express'
 import mongooseConnection from './db.js';
 import router from "./routes/web.js";
 import bodyParser from 'body-parser'
-import pdfGenerator  from './pdf.js';
+// import pdfGenerator  from './pdf_stock.js';
 
 import {
     importProducts,
@@ -43,28 +43,6 @@ app.listen(6406, () => {
 // importStocks();
 // #endregion IMPORTING DATA
 
-pdfGenerator();
+// pdfGenerator();
 
 app.use('/',router)
-
-// // #region VIEWS
-// // Home
-// app.get('/', function (req, res) {
-//     res.render('home.ejs');
-// });
-
-// // Customer
-// app.get('/customer', function (req, res) {
-//     res.render('customer.ejs');
-// });
-
-// // Product
-// app.get('/product', function (req, res) {
-//     res.render('product.ejs');
-// });
-
-// // Stock
-// app.get('/stock', function (req, res) {
-//     res.render('stock.ejs');
-// });
-// // #endregion VIEWS
