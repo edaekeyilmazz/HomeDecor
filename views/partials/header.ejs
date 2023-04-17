@@ -1,22 +1,27 @@
-<nav>
-  <div class="topnav">
-    <a class="topnav-left" href="/home">HOME DECOR</a>
-    <div class="font-size-row">
+<nav class="navbar">
+  <div class="navbar-left">
+    <a href="/home">HOME DECOR</a>
+  </div>
+  <div class="navbar-right">
+    <a href="/allcustomers">CUSTOMER</a>
+    <a href="/allproducts">PRODUCT</a>
+    <a href="/allstores">STORE</a>
+    <a href="/allsales">SALES</a>
+    <a href="/allstocks">STOCK</a>
+    <div class="dropdown">
       <a>
-        <select id="font-size">
-          <option value="-1" selected>Change Font Size</option>
-          <option value="16px">Small</option>
-          <option value="20px">Medium</option>
-          <option value="24px">Large</option>
-        </select>
+        <div class="dropdown">
+          <select id="font-size">
+            <option value="-1" selected>Change Font Size</option>
+            <option value="16px">Small</option>
+            <option value="20px">Medium</option>
+            <option value="24px">Large</option>
+          </select>
+        </div>
       </a>
     </div>
-    <div class="menu-row">
-      <a href="/allcustomers">CUSTOMER</a>
-      <a href="/allproducts">PRODUCT</a>
-      <a href="/allstores">STORE</a>
-      <a href="/allsales">SALES</a>
-      <a href="/allstocks">STOCK</a>
-    </div>
   </div>
+  <button class="hamburger">
+    <span class="hamburger-icon"></span>
+  </button>
 </nav>
