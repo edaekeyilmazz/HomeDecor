@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var body = document.querySelector("body");
-    var navbar = document.querySelectorAll(".topnav > a, menu-row > a");
+    var navbar = document.querySelectorAll(".topnav > a, .menu-row > a");
     var changesize = document.querySelector("#font-size > option");
     
     var font_size = localStorage.getItem("font-size") ?? '20px';
