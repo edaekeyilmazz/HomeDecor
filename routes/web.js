@@ -1,3 +1,5 @@
+// Eda Ekeyilmaz - 8823564
+// Namitha Chevari - 8817006
 import  express  from 'express'
 import ProductController from '../controllers/productController.js'
 import CustomerController from '../controllers/customerController.js'

@@ -41,23 +41,22 @@ const pdfGeneratorForSalesQuery = async () => {
                     $first: "$sales_date"
                 },
             }
-        }, {
-            $sort: {
-                "_id.sales": 1,
-                // total_quantity: -1
-            }
-        }, {
-            $group: {
-                _id: "$_id.sale",
-                productDetails: {
-                    $first: {
-                        store_code: "$store_code",
-                        customer_email: "$customer_email",
-                        sales_price: "$sales_price",
-                        sales_date: "$sales_date"
-                    }
-                }
-            }
+        // }, {
+        //     $sort: {
+        //         "_id.sales": 1,
+        //     }
+        // }, {
+        //     $group: {
+        //         _id: "$_id.sale",
+        //         productDetails: {
+        //             $first: {
+        //                 store_code: "$store_code",
+        //                 customer_email: "$customer_email",
+        //                 sales_price: "$sales_price",
+        //                 sales_date: "$sales_date"
+        //             }
+        //         }
+        //     }
         }, {
             $project: {
                 _id: 0,

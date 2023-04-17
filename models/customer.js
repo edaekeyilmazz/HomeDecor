@@ -1,3 +1,5 @@
+// Eda Ekeyilmaz - 8823564
+// Namitha Chevari - 8817006
 import mongoose from "mongoose"
 
 //#region Customer MODEL

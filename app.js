@@ -7,6 +7,7 @@ import router from "./routes/web.js";
 import bodyParser from 'body-parser'
 import PdfController from './controllers/pdfcontroller.js';
 // import pdfGenerator  from './pdf_stock.js';
+import pdfGeneratorForSalesQuery  from './pdf_sales.js';
 
 import {
     importProducts,

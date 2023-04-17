@@ -1,3 +1,5 @@
+// Eda Ekeyilmaz - 8823564
+// Namitha Chevari - 8817006
 import storeModel from '../models/store.js';
 
 class StoreController {

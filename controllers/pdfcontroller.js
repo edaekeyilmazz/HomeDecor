@@ -1,3 +1,6 @@
+// Eda Ekeyilmaz - 8823564
+// Namitha Chevari - 8817006
+
 // Importing modules
 import PDFDocument from 'pdfkit';
 import mongooseConnection from '../db.js';

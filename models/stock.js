@@ -1,3 +1,6 @@
+// Eda Ekeyilmaz - 8823564
+// Namitha Chevari - 8817006
+
 import mongoose from "mongoose"
 import productModel from "./product.js";
 import storeModel from "./store.js";
