@@ -11,7 +11,7 @@
 <body>
     <%-include("./partials/header.ejs") %>
 
-    <h1 style="text-align: center; padding:40px;">Product List</h1>
+    <h1>Product List</h1>
 
         <div class=" row col-md-12">
             <div class="col-md-3"></div>
@@ -29,14 +29,8 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <!-- <th scope="col">Product ID</th> -->
                             <th scope="col">Product Code</th>
                             <th scope="col">Product Name</th>
-                            <!-- <th scope="col">Description</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Color</th>
-                            <th scope="col">Brand</th>
-                            <th scope="col">Category</th>  -->
                             <th scope="col">Edit</th>
                             <th scope="col">Delete</th>
                         </tr>
@@ -44,15 +38,9 @@
                     <tbody>
                         <% for(var i=0; i<productList.length; i++) {%>
                             <tr>
-                              <!-- <td><%= productList[i].id %></td> -->
-                              <td><%= productList[i].product_code %></td>
+                               <td><%= productList[i].product_code %></td>
                               <td><%= productList[i].product_name %></td>
-                              <!-- <td><%= productList[i].description %></td>
-                              <td><%= productList[i].price %></td>
-                              <td><%= productList[i].color %></td>
-                              <td><%= productList[i].brand %></td>
-                              <td><%= productList[i].category %></td> -->
-                              <td><a class="btn btn-success" href="/product_edit/<%= productList[i].id %>"> Edit </a></td>
+                             <td><a class="btn btn-success" href="/product_edit/<%= productList[i].id %>"> Edit </a></td>
                               <td><a class="btn btn-danger" href="/product_delete/<%= productList[i].id %>"> Delete </a></td>
                             </tr>
                          <% } %>

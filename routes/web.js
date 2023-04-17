@@ -58,6 +58,6 @@ router.get('/sales_delete/:id', SalesController.sales_delete)
 // router.get('/pdf_store', PdfController.pdfGeneratorForStoreQuery())
 router.get('/pdf/store', PdfController.pdfGeneratorForStoreQuery)
 router.get('/pdf/top_three_sales', PdfController.pdfGeneratorForTopThreeSalesInStoreQuery)
-
+router.get('/pdf/customer_sales', PdfController.pdfGeneratorForSalesDetailsForCurrentMonthQuery)
 
 export default router

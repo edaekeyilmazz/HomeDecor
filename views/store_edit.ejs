@@ -9,8 +9,10 @@
     <%-include("./partials/stylesheet.ejs") %>
 </head>
 <body>
+  
   <%-include("./partials/header.ejs") %>
 
+  <div class="main">
   <div class="row">
     <% if (store != null) { %> 
       <form method="post" action="/store_update/<%= store.id %>" >
@@ -62,10 +64,15 @@
               <span><img class="social-media-icon" src="/images/whatsapp.png"></span>
           </ul>
       </div>
+      <div class="center-footer">
+        <p>Eda Ekeyilmaz - 8823564</p>
+        <p>Namitha Chevari - 8817006</p>
+      </div>
       <div class="footer-bottom">
           <p>copyright © <a href="#">HomeDecor - Data Queens</a></p>
       </div>
   </div>
+</div>
       <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
       <script src="/js/change-font-size.js"></script>
 </body>

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var body = document.querySelector("body");
-    var navbar = document.querySelectorAll(".topnav > a");
+    var navbar = document.querySelectorAll(".topnav > a, menu-row > a");
     var changesize = document.querySelector("#font-size > option");
     
     var font_size = localStorage.getItem("font-size") ?? '20px';
@@ -16,8 +16,8 @@ $(document).ready(function () {
 var dropdown = document.getElementById("font-size");
 dropdown.addEventListener("change", function () {
     var body = document.querySelector("body");
-    var navbar = document.querySelectorAll(".topnav > a");
-
+    var navbar = document.querySelectorAll(".topnav > a, .menu-row > a");
+  
     var selectedValue = dropdown.value;
     body.style.fontSize = selectedValue;
     navbar.forEach(nav => {

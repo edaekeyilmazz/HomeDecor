@@ -378,5 +378,180 @@ class PdfController {
     }
 
 
+    // A report showing the total amount of purchases made by customers this month
+    static pdfGeneratorForSalesDetailsForCurrentMonthQuery = async (req, res) => {
+        try {
+            const now = new Date();
+            const startOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+            const endOfCurrentMonth = new Date(now.getFullYear(), now.getMonth()+1, 0, 23, 59, 59, 999);
+
+            const customerSalesListAgg = await salesModel.aggregate([
+                {
+                    $match: {
+                        sales_date: {
+                            $gte: startOfCurrentMonth,
+                            $lte: endOfCurrentMonth
+                        }
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'customers',
+                        localField: 'customer',
+                        foreignField: '_id',
+                        as: 'customer'
+                    }
+                },
+                {
+                    $unwind: '$customer'
+                },
+                {
+                    $group: {
+                        _id: '$customer._id',
+                        first_name: {
+                            $first: '$customer.first_name'
+                        },
+                        last_name: {
+                            $first: '$customer.last_name'
+                        },
+                        phone: {
+                            $first: '$customer.phone'
+                        },
+                        total_sales: {
+                            $sum: '$sales_price'
+                        }
+                    }
+                }, {
+                    $project: {
+                        _id: 1,
+                        full_name: {
+                            $concat: ['$first_name', ' ', '$last_name']
+                        },
+                        phone: 1,
+                        total_sales: 1
+                    }
+                }, {
+                    $sort: {
+                        total_sales: -1
+                    }
+                }
+            ]);
+
+            console.log(customerSalesListAgg);
+            // add logo to header
+            function addHeader(doc) {
+                doc.image('./public/images/home-decor-logo.png', 205, 10, {
+                    fit: [
+                        200, 200
+                    ],
+                    align: 'center',
+                    valign: 'center'
+                });
+
+                doc.fontSize(18);
+                doc.text('Total Amount of Purchases made by Customers', 130, 190).moveDown();
+                doc.text('in Current Month', 250, 220).moveDown();
+            }
+
+            const doc = new PDFDocument();
+
+            // Send the PDF file as a response
+            let pdfFile = './public/pdf/customer_sales.pdf';
+            doc.pipe(fs.createWriteStream(pdfFile));
+
+            // add the logo to the header
+            addHeader(doc);
+
+            const headers = ["Customer Name", "Customer Phone", "Total Sales Price"];
+
+            // Set the width of each column
+            const columnWidths = [150, 200, 100];
+
+            // Set the initial x and y positions of the table
+            let x = 50;
+            let y = 250;
+
+
+            // Reset the x and y positions for the table data
+            x = 80;
+            y += 20;
+            // Set cell styles
+            const cellPadding = 5;
+            const cellFont = 'Helvetica';
+            const cellFontSize = 10;
+            const cellFillColor = '#f9f9f9';
+            const cellTextColor = '#333';
+            const cellBorderWidth = 0.5;
+            const cellBorderColor = '#ccc';
+            doc.lineWidth(0.2);
+
+
+            // Draw the table headers
+            doc.font('Helvetica-Bold').fontSize(10);
+            headers.forEach((header, index) => {
+                const cellStyle = {
+                    fillColor: cellFillColor
+                };
+                // const cellStyle = { fillColor: '#f5f5f5' };
+                doc.rect(x, y, columnWidths[index], 20).fill(cellStyle.fillColor);
+                doc.font(cellFont).fontSize(cellFontSize).fill(cellTextColor);
+                doc.text(header, x + cellPadding, y + cellPadding, {
+                    width: columnWidths[index] - cellPadding * 2,
+                    height: 20 - cellPadding * 2
+                });
+                doc.lineWidth(cellBorderWidth).rect(x, y, columnWidths[index], 20).stroke(cellBorderColor);
+                x += columnWidths[index];
+            });
+
+            x = 80;
+            y += 20;
+
+            customerSalesListAgg.forEach((row, rowIndex) => {
+                const {full_name, phone, total_sales} = row;
+                const rowValues = [full_name, phone, total_sales];
+
+                rowValues.forEach((cell, columnIndex) => {
+                    const cellStyle = rowIndex % 2 === 0 ? {
+                        fillColor: cellFillColor
+                    } : {
+                        fillColor: '#f5f5f5'
+                    };
+                    doc.rect(x, y, columnWidths[columnIndex], 20).fill(cellStyle.fillColor);
+                    doc.font(cellFont).fontSize(cellFontSize).fill(cellTextColor);
+                    doc.text(cell.toString(), x + cellPadding, y + cellPadding, {
+                        width: columnWidths[columnIndex] - cellPadding * 2,
+                        height: 20 - cellPadding * 2
+                    });
+                    doc.lineWidth(cellBorderWidth).rect(x, y, columnWidths[columnIndex], 20).stroke(cellBorderColor);
+                    x += columnWidths[columnIndex];
+                });
+                x = 80;
+                y += 20;
+            });
+
+            // Add the footer
+            doc.page.margins = {
+                'top': 50,
+                'bottom': 20,
+                'left': 50,
+                'right': 50
+            }
+
+            doc.fontSize(10).text('copyright © Home Decor | Eda Ekeyilmaz 8823564 & Namitha Chevari 8817006', doc.page.margins.left + 80, doc.page.height - doc.page.margins.bottom - 30);
+
+            doc.end();
+
+            // Set the response headers
+            res.setHeader('Content-Type', 'application/pdf');
+            res.setHeader('Content-Disposition', 'inline; filename="pdf/customer_sales.pdf"');
+
+            pdfFile = '/pdf/customer_sales.pdf';
+            res.redirect(pdfFile);
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 }
 export default PdfController

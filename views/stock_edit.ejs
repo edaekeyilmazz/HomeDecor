@@ -11,6 +11,8 @@
 <body>
   <%-include("./partials/header.ejs") %>
 
+  <div class="main">
+
   <div class="row">
     <% if (stock != null) { %> 
       <form method="post" action="/stock_update/<%= stock.id %>" >
@@ -55,6 +57,7 @@
           <a class="btn btn-danger button-top" href="/allstocks"> Cancel </a>
       </form>
     </div>
+  </div>
     <div class="footer">
       <div class="footer-content">
           <h3></h3>
@@ -65,6 +68,10 @@
               <span><img class="social-media-icon" src="/images/facebook.png"></span>
               <span><img class="social-media-icon" src="/images/whatsapp.png"></span>
           </ul>
+      </div>
+      <div class="center-footer">
+        <p>Eda Ekeyilmaz - 8823564</p>
+        <p>Namitha Chevari - 8817006</p>
       </div>
       <div class="footer-bottom">
           <p>copyright © <a href="#">HomeDecor - Data Queens</a></p>

@@ -15,6 +15,17 @@ body {
   margin: 0px;
   background-size: 100% 110%;
   height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+}
+.footer {
+  height: 50px;
 }
 form {
   width: 100%;
@@ -60,7 +71,16 @@ nav .logo-wrapper {
   align-items: center;
   margin: 10px auto 10px auto;
 }
-
+h1 {
+  text-align: center;
+  padding: 40px;
+}
+.home-h1{
+  margin-top: 8%;
+  font-size: 3rem;
+  margin-bottom: 6%;
+  color: #152238;
+}
 .row {
   width: 60%;
   margin-left: 20%;
@@ -79,14 +99,16 @@ nav .logo-wrapper {
 
 /* Footer start */
 .footer {
-  bottom: 0;
-  left: 0;
-  right: 0;
   background: #152238;
-  height: auto;
   margin-top: 3rem;
   padding-top: 1rem;
   color: #fff;
+
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: auto;
 }
 .footer-content {
   display: flex;
@@ -215,6 +237,7 @@ nav .logo-wrapper {
     width: 100%;
     display: flex;
     justify-content: center;
+    /* margin-top:20px; */
   }
   table tr:nth-child(odd) td {
     background-color: #a5d5d6b8;

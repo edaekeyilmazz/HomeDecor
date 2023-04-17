@@ -5,7 +5,7 @@
 
 <!-- // //To run the application, please follow the below steps:
 
-1. Go to the follder HomeDecor.zip and extract it
+1. Go to the folder HomeDecor.zip and extract it
 
 2. Open this extracted folder in Visual Studio code
 
@@ -15,7 +15,7 @@
 
 5. Next type "npm run dev" (without double quotation) and press enter.
 
-6. The application now runs in port "6406" sucessfully and the front end pages can be viewed by going to the browser and typing "http://localhost:6406/allstocks"
+6. The application now runs in port "6406" sucessfully and the front end pages can be viewed by going to the browser and typing "http://localhost:6406/"
 
 7. To go to different pages, you can navigate to different pages from the top navigation menu.
 
