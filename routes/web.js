@@ -53,7 +53,9 @@ router.post('/sales_update/:id', SalesController.sales_update)
 router.get('/sales_delete/:id', SalesController.sales_delete)
 
 // Pdf
-router.get('/pdf/store.pdf', PdfController.pdfGeneratorForStoreQuery)
+// router.get('/pdf_store', PdfController.pdfGeneratorForStoreQuery())
+router.get('/pdf/store', PdfController.pdfGeneratorForStoreQuery)
+router.get('/pdf/top_three_sales', PdfController.pdfGeneratorForTopThreeSalesInStoreQuery)
 
 
 export default router

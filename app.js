@@ -5,6 +5,7 @@ import express from 'express'
 import mongooseConnection from './db.js';
 import router from "./routes/web.js";
 import bodyParser from 'body-parser'
+import PdfController from './controllers/pdfcontroller.js';
 // import pdfGenerator  from './pdf_stock.js';
 
 import {
@@ -42,7 +43,5 @@ app.listen(6406, () => {
 // importSales();
 // importStocks();
 // #endregion IMPORTING DATA
-
-// pdfGenerator();
 
 app.use('/',router)

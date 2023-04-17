@@ -13,14 +13,7 @@ const pdfGeneratorForSalesQuery = async () => {
     // Create a document
     // Retrieve data based on query
     const saleListAgg = await salesModel.aggregate([
-        {
-            $lookup: {
-                from: 'sales',
-                localField: 'sales',
-                foreignField: '_id',
-                as: 'sales_details'
-            }
-        },{
+       {
             $lookup: {
                 from: 'customer',
                 localField: 'customer',
@@ -28,26 +21,24 @@ const pdfGeneratorForSalesQuery = async () => {
                 as: 'customer_details'
             }
         },{
-            $unwind: "$sales_details"
-        },{
             $unwind: "$customer_details"
         },{
             $group: {
                 _id: {
-                    sales: "$sales",
+                    // sales: "$sales",
                     customer: "$customer"
                 },
                 sales_code: {
-                    $first: "$sales_details.sales_code"
+                    $first: "$sales_code"
                 },
                 customer_email: {
                     $first: "$customer_details.customer_email"
                 },
                 sales_price: {
-                    $first: "$sales_details.sales_price"
+                    $first: "$sales_price"
                 },
                 sales_date: {
-                    $first: "$sales_details.sales_date"
+                    $first: "$sales_date"
                 },
             }
         }, {
