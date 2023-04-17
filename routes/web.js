@@ -13,6 +13,10 @@ import PdfController from '../controllers/pdfcontroller.js';
 const router = express.Router()
 
 // router.get('/home', ProductController.homepage)
+router.get('/', function(req, res){
+    res.render('home.ejs');
+});
+
 router.get('/home', function(req, res){
     res.render('home.ejs');
 });

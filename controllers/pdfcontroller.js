@@ -14,6 +14,7 @@ mongooseConnection();
 
 class PdfController {
 
+    // 
     static pdfGeneratorForStoreQuery = async (req, res) => {
         // Create a document
         // Retrieve data based on query

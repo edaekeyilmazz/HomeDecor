@@ -46,7 +46,7 @@ form {
   font-weight: bold;
   font-size: 18px;
 }
-.blue-color{
+.blue-color {
   color: #007bff;
 }
 .topnav-left {
@@ -61,8 +61,7 @@ form {
   text-decoration: underline !important;
   color: white !important;
 }
-a:hover{
-
+a:hover {
   color: white;
 }
 nav {
@@ -135,7 +134,7 @@ h1 {
   text-align: center;
   padding: 40px;
 }
-.home-h1{
+.home-h1 {
   margin-top: 8%;
   font-size: 3rem;
   margin-bottom: 6%;
@@ -242,7 +241,7 @@ a {
   text-align: center;
   font-size: 18px;
 }
-.hamburger{
+.hamburger {
   display: none;
 }
 /* MOBILE VERSION */
@@ -320,12 +319,13 @@ a {
   .btn-primary {
     width: 90% !important;
   }
-  .navbar-left, .navbar-right {
+  .navbar-left,
+  .navbar-right {
     flex-direction: column;
     align-items: center;
   }
 
-  .navbar{
+  .navbar {
     display: flex;
     align-items: center;
     background-color: #152238;
@@ -339,29 +339,30 @@ a {
     margin-left: 20px;
     margin: 40px auto;
   }
-  
+
   .navbar-right {
     display: none;
   }
-  .navbar-left a{
+  .navbar-left a {
     font-size: 36px !important;
   }
   .navbar-right.show {
     display: flex;
     flex-direction: column;
   }
-  
-  .navbar-right.show a, .dropdown {
+
+  .navbar-right.show a,
+  .dropdown {
     margin: 0;
   }
-  .dropdown{
+  .dropdown {
     padding-bottom: 10px;
   }
   .dropdown-content {
     position: static;
     display: none;
   }
-  
+
   .dropdown:hover .dropdown-content {
     display: block;
   }
@@ -376,7 +377,7 @@ a {
     top: 10px;
     right: 10px;
   }
-  
+
   .hamburger-icon {
     display: block;
     width: 20px;
@@ -385,7 +386,7 @@ a {
     position: relative;
     margin-top: 5px;
   }
-  
+
   .hamburger-icon::before,
   .hamburger-icon::after {
     content: "";
@@ -396,24 +397,24 @@ a {
     position: absolute;
     left: 0;
   }
-  
+
   .hamburger-icon::before {
     top: -7px;
   }
-  
+
   .hamburger-icon::after {
     bottom: -7px;
   }
-  
+
   .hamburger.active .hamburger-icon {
     transform: rotate(45deg);
   }
-  
+
   .hamburger.active .hamburger-icon::before {
     top: 0;
     transform: rotate(90deg);
   }
-  
+
   .hamburger.active .hamburger-icon::after {
     bottom: 0;
     transform: rotate(90deg);
@@ -458,5 +459,13 @@ a {
   .table {
     border: #dee2e6 solid 3px;
     box-shadow: 0px 0px 10px #7f8992;
+  }
+  .navbar{
+    padding-top: 45px;
+  }
+  .navbar-left a {
+    font-size: 35px !important;
+    text-align: center;
+    margin-left: 33%;
   }
 }
