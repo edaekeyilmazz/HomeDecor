@@ -4,6 +4,8 @@ import CustomerController from '../controllers/customerController.js'
 import StoreController from '../controllers/storeController.js'
 import StockController from '../controllers/stockController.js'
 import SalesController from '../controllers/salesController.js'
+import PdfController from '../controllers/pdfcontroller.js';
+// import PdfController2 from '../controllers/pdf2.js';
 // import { validateProduct } from '../middleware/validation.js';
 
 const router = express.Router()
@@ -49,6 +51,9 @@ router.get('/sales_edit/:id', SalesController.sales_edit)
 router.post('/sales_insert', SalesController.sales_insert)
 router.post('/sales_update/:id', SalesController.sales_update)
 router.get('/sales_delete/:id', SalesController.sales_delete)
+
+// Pdf
+router.get('/pdf/store.pdf', PdfController.pdfGeneratorForStoreQuery)
 
 
 export default router

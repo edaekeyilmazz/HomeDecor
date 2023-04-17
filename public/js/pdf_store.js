@@ -1,9 +1,11 @@
 // Importing modules
-import PDFDocument from 'pdfkit';
-import mongooseConnection from './db.js';
+// import PDFDocument from 'pdfkit';
+import PDFDocument from '/node_modules/pdfkit/js/pdfkit.js'
+import mongooseConnection from '../../db.js';
 import fs from 'fs';
-import stockModel from './models/stock.js';
+import stockModel from '../../models/stock.js';
 // import productModel from './models/product.js';
+
 
 
 // MongoDb Connection

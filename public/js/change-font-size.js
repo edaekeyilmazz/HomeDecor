@@ -1,9 +1,9 @@
 $(document).ready(function () {
     var body = document.querySelector("body");
     var navbar = document.querySelectorAll(".topnav > a");
-    var changesize = document.querySelectorAll("font-size > option");
+    var changesize = document.querySelector("#font-size > option");
     
-    var font_size = localStorage.getItem("font-size");
+    var font_size = localStorage.getItem("font-size") ?? '20px';
     body.style.fontSize = font_size;
     changesize.style.fontSize = font_size;
     navbar.forEach(nav => {
