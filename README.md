@@ -1,6 +1,9 @@
+<!-- // Eda Ekeyilmaz - 8823564
+// Namitha Chevari - 8817006 -->
+
 # HomeDecor
 
-// //To run the application, please follow the below steps:
+<!-- // //To run the application, please follow the below steps:
 
 1. Go to the follder HomeDecor.zip and extract it
 
@@ -40,4 +43,4 @@
 
 4. In the Edit page, make the required changes and click on "Submit button"
 
-5. The Edits are now applied to the Database.
+5. The Edits are now applied to the Database. -->

@@ -1,3 +1,6 @@
+// Eda Ekeyilmaz - 8823564
+// Namitha Chevari - 8817006
+
 import stockModel from '../models/stock.js';
 import productModel from '../models/product.js';
 import storeModel from '../models/store.js';
